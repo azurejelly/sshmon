@@ -29,6 +29,9 @@ impl Notifier for PushoverNotifier {
         msg.set_title(format!("New SSH login at {}", self.hostname));
 
         let res = api.send(&msg);
-        println!("{:?}", res.expect("failed to send pushover message"))
+        match res {
+            Ok(_) => println!("Detected and logged a new SSH login"),
+            Err(e) => println!("Failed to send Pushover message: {}", e),
+        }
     }
 }

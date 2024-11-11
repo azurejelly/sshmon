@@ -22,15 +22,13 @@ fn main() -> Result<()> {
     let mut watcher = notify::recommended_watcher(tx)?;
     watcher.watch(Path::new(&config.ssh_logs_path), RecursiveMode::Recursive)?;
 
-    let mut file = File::open(&config.ssh_logs_path).expect("failed to open log file");
+    let mut file = File::open(&config.ssh_logs_path).expect("Failed to open log file");
     file.seek(SeekFrom::End(0)).unwrap();
 
     let mut last_position = file.stream_position().unwrap();
     for res in rx {
         match res {
             Ok(event) => {
-                println!("incoming event: {:?}", event);
-
                 if let notify::EventKind::Modify(notify::event::ModifyKind::Data(_)) = event.kind {
                     file.seek(SeekFrom::Start(last_position)).unwrap();
 
@@ -50,7 +48,7 @@ fn main() -> Result<()> {
                     last_position = file.stream_position().unwrap();
                 }
             }
-            Err(e) => println!("watch error: {:?}", e),
+            Err(e) => println!("Watch error: {:?}", e),
         }
 
         thread::sleep(Duration::from_millis(100));
