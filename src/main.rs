@@ -6,11 +6,14 @@ use notify::{Event, RecursiveMode, Result, Watcher};
 use regex::Regex;
 use std::thread;
 use std::time::Duration;
+use dotenv::dotenv;
 
 pub mod config;
 pub mod notifier;
 
 fn main() -> Result<()> {
+    dotenv().ok();
+
     let config = config::get();
     let re = Regex::new(&config.auth_sucess_regex).unwrap();
     let notif = notifier::get_notifier(&config);
