@@ -1,0 +1,14 @@
+services:
+  monitor:
+    container_name: ssh-monitor
+    mem_limit: 256m
+    cpu_percent: 100
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /var/log:/var/log:ro
+    environment:
+      SSH_LOG_PATH: "/var/log/auth.log"
+      PUSHOVER_API_KEY: "..."
+      PUSHOVER_USER_KEY: "..."

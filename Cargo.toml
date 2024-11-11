@@ -1,0 +1,8 @@
+[package]
+name = "ssh-monitor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+envconfig = "0.11.0"
+regex = "1.11.1"
