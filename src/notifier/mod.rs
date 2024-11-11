@@ -25,7 +25,7 @@ impl std::str::FromStr for NotifierType {
             "stdout" => Ok(NotifierType::Stdout),
             "pushover" => Ok(NotifierType::Pushover),
             // "ntfy" => Ok(NotifierType::Ntfy),
-            _ => Err(format!("unknown notifier type {s}"))
+            _ => Err(format!("Unknown notifier type {}", s))
         }
     }
 }
@@ -38,15 +38,15 @@ pub fn get_notifier(cfg: &Config) -> Box<dyn Notifier> {
                 gethostname::gethostname()
                     .into_string()
                     .unwrap_or_else(|_| {
-                        panic!("could not obtain a valid hostname, please set the HOSTNAME_OVERRIDE environment variable instead")
+                        panic!("Could not obtain a valid hostname, please set the HOSTNAME_OVERRIDE environment variable instead")
                     })
             });
 
             let api = cfg.pushover_api_key.clone()
-                .expect("a pushover API key must be specified");
+                .expect("A Pushover API key must be specified");
 
             let usr = cfg.pushover_user_key.clone()
-                .expect("a pushover user key must be specified");
+                .expect("A Pushover user key must be specified");
 
             Box::new(PushoverNotifier::new(host.to_string(), api.to_string(), usr.to_string()))
         }
