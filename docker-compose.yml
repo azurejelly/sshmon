@@ -29,3 +29,8 @@ services:
       # How this machine should be referred as in each notification.
       # Optional, will use the machine's hostname instead.
       HOSTNAME_OVERRIDE: "sshmon-docker"
+
+      # The log level. Optional. By default this is set to  show all logs
+      # that have a level equal or higher to 'info'. Set it to 'debug' or
+      # 'trace' in order to show debug messages.
+      RUST_LOG: "info"

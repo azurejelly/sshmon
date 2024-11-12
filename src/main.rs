@@ -12,14 +12,12 @@ use dotenv::dotenv;
 
 pub mod config;
 pub mod notifier;
-pub mod logger;
 
 fn main() -> Result<()> {
     dotenv().ok();
+    env_logger::init();
 
     let config = config::get();
-    logger::init(&config).expect("Failed to initialize logger");
-
     let re = Regex::new(&config.auth_sucess_regex).unwrap();
     let notif = notifier::get_notifier(&config);
     
@@ -59,9 +57,6 @@ fn main() -> Result<()> {
             }
             Err(e) => error!("Watch error: {:?}", e),
         }
-
-        debug!("Sleeping for 100 ms");
-        thread::sleep(Duration::from_millis(100));
     }
 
     Ok(())
