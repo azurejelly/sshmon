@@ -1,5 +1,7 @@
 use envconfig::Envconfig;
 
+use log::debug;
+
 use crate::notifier::NotifierType;
 
 #[derive(Envconfig)]
@@ -27,5 +29,6 @@ pub struct Config {
 }
 
 pub fn get() -> Config {
+    debug!("Initializing configuration");
     Config::init_from_env().unwrap()
 }

@@ -1,5 +1,6 @@
 extern crate pushover;
 
+use log::{debug, error};
 use pushover::{requests::message::SendMessage, API};
 
 use crate::notifier::Notifier;
@@ -30,8 +31,8 @@ impl Notifier for PushoverNotifier {
 
         let res = api.send(&msg);
         match res {
-            Ok(_) => println!("Detected and logged a new SSH login"),
-            Err(e) => println!("Failed to send Pushover message: {}", e),
+            Ok(_) => debug!("Detected and logged a new SSH login"),
+            Err(e) => error!("Failed to send Pushover message: {}", e),
         }
     }
 }

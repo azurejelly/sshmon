@@ -2,7 +2,9 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Seek, SeekFrom};
 use std::path::Path;
 use std::sync::mpsc;
-use notify::{Event, RecursiveMode, Result, Watcher};
+use log::{debug, error};
+use notify::event::ModifyKind;
+use notify::{Event, EventKind, RecursiveMode, Result, Watcher};
 use regex::Regex;
 use std::thread;
 use std::time::Duration;
@@ -10,11 +12,14 @@ use dotenv::dotenv;
 
 pub mod config;
 pub mod notifier;
+pub mod logger;
 
 fn main() -> Result<()> {
     dotenv().ok();
 
     let config = config::get();
+    logger::init(&config).expect("Failed to initialize logger");
+
     let re = Regex::new(&config.auth_sucess_regex).unwrap();
     let notif = notifier::get_notifier(&config);
     
@@ -29,7 +34,11 @@ fn main() -> Result<()> {
     for res in rx {
         match res {
             Ok(event) => {
-                if let notify::EventKind::Modify(notify::event::ModifyKind::Data(_)) = event.kind {
+                debug!("Received event {:?} on file {}", event, config.ssh_logs_path);
+                
+                // is there a way to read the data directly from notify
+                // please tell me if there is
+                if let EventKind::Modify(ModifyKind::Data(_)) = event.kind {
                     file.seek(SeekFrom::Start(last_position)).unwrap();
 
                     let reader = BufReader::new(&file);
@@ -48,9 +57,10 @@ fn main() -> Result<()> {
                     last_position = file.stream_position().unwrap();
                 }
             }
-            Err(e) => println!("Watch error: {:?}", e),
+            Err(e) => error!("Watch error: {:?}", e),
         }
 
+        debug!("Sleeping for 100 ms");
         thread::sleep(Duration::from_millis(100));
     }
 
