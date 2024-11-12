@@ -3,11 +3,8 @@ use std::io::{BufRead, BufReader, Seek, SeekFrom};
 use std::path::Path;
 use std::sync::mpsc;
 use log::{debug, error};
-use notify::event::ModifyKind;
-use notify::{Event, EventKind, RecursiveMode, Result, Watcher};
+use notify::{Event, RecursiveMode, Result, Watcher};
 use regex::Regex;
-use std::thread;
-use std::time::Duration;
 use dotenv::dotenv;
 
 pub mod config;
@@ -36,7 +33,7 @@ fn main() -> Result<()> {
                 
                 // is there a way to read the data directly from notify
                 // please tell me if there is
-                if let EventKind::Modify(ModifyKind::Data(_)) = event.kind {
+                if event.kind.is_modify() {
                     file.seek(SeekFrom::Start(last_position)).unwrap();
 
                     let reader = BufReader::new(&file);
