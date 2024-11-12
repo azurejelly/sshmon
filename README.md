@@ -14,7 +14,7 @@ $ docker run -it \
     --env-file .env \
     azurejelly/sshmon:latest
 ```
-Or, check out the [Docker Compose](./docker-compose.yml) on this same repository.
+Or, check out the [Docker Compose](./docker-compose.yml) template on this same repository.
 
 ### Configuration
 sshmon is configured through environment variables. You can set them by using a `.env` file:
