@@ -1,10 +1,8 @@
 services:
   monitor:
-    container_name: sshmon
     mem_limit: 256m
     build:
       context: .
-      dockerfile: Dockerfile
     volumes:
       # Mounts the host's /var/log/ folder inside the container as read-only.
       # We don't need to have write access to it.
