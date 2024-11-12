@@ -14,7 +14,7 @@ pub trait Notifier {
 pub enum NotifierType {
     Stdout,
     Pushover,
-    // Ntfy
+    Ntfy
 }
 
 impl std::str::FromStr for NotifierType {
@@ -24,7 +24,7 @@ impl std::str::FromStr for NotifierType {
         match s.trim().to_lowercase().as_ref() {
             "stdout" => Ok(NotifierType::Stdout),
             "pushover" => Ok(NotifierType::Pushover),
-            // "ntfy" => Ok(NotifierType::Ntfy),
+            "ntfy" => Ok(NotifierType::Ntfy),
             _ => Err(format!("Unknown notifier type {}", s))
         }
     }
@@ -50,5 +50,6 @@ pub fn get_notifier(cfg: &Config) -> Box<dyn Notifier> {
 
             Box::new(PushoverNotifier::new(host.to_string(), api.to_string(), usr.to_string()))
         }
+        NotifierType::Ntfy => todo!(),
     }
 }
