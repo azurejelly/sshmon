@@ -12,9 +12,6 @@ pub struct Config {
     #[envconfig(from = "AUTH_SUCCESS_REGEX", default = r"Accepted (\w+) for (\w+) from ([\d\.]+) port ")]
     pub auth_sucess_regex: String,
 
-    #[envconfig(from = "DEBUG", default = "false")]
-    pub debug: bool,
-
     #[envconfig(from = "NOTIFIER", default = "pushover")]
     pub notifier: NotifierType,
 
