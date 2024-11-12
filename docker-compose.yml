@@ -7,6 +7,11 @@ services:
       # Mounts the host's /var/log/ folder inside the container as read-only.
       # We don't need to have write access to it.
       - /var/log:/var/log:ro
+    
+    # You can use a .env file directly instead of modifying the values below.
+    # Just uncomment the following line:
+    # env_file: ".env"
+
     environment:
       # The place where successful SSH logins can normally be found.
       # Ubuntu seems to use /var/log/auth.log and Fedora/CentOS/RHEL
@@ -28,7 +33,7 @@ services:
       # Optional, will use the machine's hostname instead.
       HOSTNAME_OVERRIDE: "sshmon-docker"
 
-      # The log level. Optional. By default this is set to  show all logs
+      # The log level. Optional. By default this is set to show all logs
       # that have a level equal or higher to 'info'. Set it to 'debug' or
       # 'trace' in order to show debug messages.
       RUST_LOG: "info"
