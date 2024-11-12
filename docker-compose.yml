@@ -1,8 +1,7 @@
 services:
   monitor:
     mem_limit: 128m
-    build:
-      context: .
+    image: azurejelly/sshmon:latest
     volumes:
       # Mounts the host's /var/log/ folder inside the container as read-only.
       # We don't need to have write access to it.
