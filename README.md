@@ -4,6 +4,18 @@ Sends push notifications every time someone logs in to your server via SSH.
 > [!NOTE]  
 > Only Pushover support has been implemented for now.
 
+## Installation
+You can easily install sshmon by using Docker. An image is already available at [Docker Hub](https://hub.docker.com/r/azurejelly/sshmon):
+```sh
+$ docker run -it \
+    -d \
+    --restart=always \
+    -v /var/log:/var/log:ro \
+    --env-file .env \
+    azurejelly/sshmon:latest
+```
+Or, check out the [Docker Compose](./docker-compose.yml) on this same repository.
+
 ### Configuration
 sshmon is configured through environment variables. You can set them by using a `.env` file:
 
