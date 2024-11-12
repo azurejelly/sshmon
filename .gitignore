@@ -1,6 +1,12 @@
+# Cargo stuff
 target/
 
+# Common macOS files
 .DS_Store*
 ._*
 
+# Common Windows files
 desktop.ini
+
+# Secrets
+.env
