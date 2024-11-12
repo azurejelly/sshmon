@@ -1,6 +1,6 @@
 services:
   monitor:
-    mem_limit: 256m
+    mem_limit: 128m
     build:
       context: .
     volumes:
@@ -14,7 +14,7 @@ services:
       SSH_LOG_PATH: "/var/log/auth.log"
 
       # The regex that the program will use to identify new successful SSH logins. Optional.
-      AUTH_SUCCESS_REGEX: r"Accepted (\w+) for (\w+) from ([\d\.]+) port "
+      AUTH_SUCCESS_REGEX: "Accepted (\\w+) for (\\w+) from ([\\d\\.]+) port "
       
       # Valid notifier types are: 'pushover', 'stdout' and 'ntfy'. Required.
       NOTIFIER: "pushover"
