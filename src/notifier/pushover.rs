@@ -13,7 +13,7 @@ pub struct PushoverNotifier {
 
 impl PushoverNotifier {
     pub fn new(hostname: String, api_key: String, user_key: String) -> Self {
-        PushoverNotifier { hostname, api_key, user_key }
+        Self { hostname, api_key, user_key }
     }
 }
 

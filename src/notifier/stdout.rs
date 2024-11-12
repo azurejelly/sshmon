@@ -6,7 +6,7 @@ pub struct StdoutNotifier {}
 
 impl StdoutNotifier {
     pub fn new() -> Self {
-        StdoutNotifier {}
+        Self {}
     }
 }
 
