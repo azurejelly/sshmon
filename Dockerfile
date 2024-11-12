@@ -10,6 +10,6 @@ FROM gcr.io/distroless/cc-debian12
 
 WORKDIR /app
 
-COPY --from=build-env /build/target/release/ssh-monitor ./
+COPY --from=build-env /build/target/release/ssh-monitor /app
 
-ENTRYPOINT [ "ssh-monitor" ]
+ENTRYPOINT [ "/app/ssh-monitor" ]
