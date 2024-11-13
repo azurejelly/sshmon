@@ -5,6 +5,8 @@ use pushover::{requests::message::SendMessage, API};
 
 use crate::notifier::Notifier;
 
+static API = API::new();
+
 pub struct PushoverNotifier {
     pub hostname: String,
     pub api_key: String,
@@ -20,7 +22,6 @@ impl PushoverNotifier {
 impl Notifier for PushoverNotifier {
     fn send_silent_notif(&self, source_ip: &str, user: &str, method: &str) {
         debug!("Called PushoverNotifier#send_silent_notif(...)");
-        let api = API::new();
         let mut msg = SendMessage::new(
             self.api_key.to_string(), 
             self.user_key.to_string(), 
@@ -31,7 +32,7 @@ impl Notifier for PushoverNotifier {
         msg.set_title(format!("New SSH login at {}", self.hostname));
 
         debug!("Finished building message, sending through Pushover API");
-        let res = api.send(&msg);
+        let res = API.send(&msg);
         match res {
             Ok(_) => debug!("Pushover request was successful"),
             Err(e) => error!("Failed to send Pushover message: {}", e),
