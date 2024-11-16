@@ -23,6 +23,9 @@ pub struct Config {
 
     #[envconfig(from = "HOSTNAME_OVERRIDE")]
     pub hostname_override: Option<String>,
+    
+    #[envconfig(from = "DISCORD_WEBHOOK")]
+    pub discord_webhook: Option<String>,
 }
 
 pub fn get() -> Config {

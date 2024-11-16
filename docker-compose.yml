@@ -20,7 +20,7 @@ services:
       # The regex that the program will use to identify new successful SSH logins. Optional.
       AUTH_SUCCESS_REGEX: "Accepted (\\w+) for (\\w+) from ([\\d\\.]+) port "
       
-      # Valid notifier types are: 'pushover', 'stdout' and 'ntfy'. Required.
+      # Valid notifier types are: 'pushover', 'stdout' and 'discord'. Required.
       NOTIFIER: "pushover"
 
       # Pushover API and user keys. Optional unless you're using

@@ -1,5 +1,3 @@
-extern crate pushover;
-
 use log::{debug, error};
 use pushover::{requests::message::SendMessage, API};
 
