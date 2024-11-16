@@ -27,6 +27,7 @@ sshmon is configured through environment variables. You can set them by using a 
 | `NOTIFIER`           | Which service to use in order to send push notifications. Can be `pushover`, `discord` or `stdout`.                                                          | `pushover`                                     |
 | `PUSHOVER_API_KEY`   | Your Pushover application API key.                                                                                                                           | N/A                                            |
 | `PUSHOVER_USER_KEY`  | Your Pushover user key.                                                                                                                                      | N/A                                            |
+| `DISCORD_WEBHOOK`    | Your Discord webhook URL.                                                                                                                                    | N/A                                            |
 | `HOSTNAME_OVERRIDE`  | Can be used to override the hostname on each push notification in case it is inaccurate or the automatic hostname detection is causing the program to panic. | N/A                                            |
 
 ## Building
