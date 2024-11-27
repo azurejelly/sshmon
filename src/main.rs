@@ -30,9 +30,18 @@ fn main() -> Result<()> {
         match res {
             Ok(event) => {
                 debug!("Received event {:?} on file {}", event, config.ssh_logs_path);
+                debug!("Last known position is {}", last_position);
                 
-                // is there a way to read the data directly from notify
-                // please tell me if there is
+                // If the file gets removed or created again, reset the last position to zero.
+                // A possible cause for this is, for example, log rotation.
+                if event.kind.is_remove() || event.kind.is_create() {
+                    file = File::open(&config.ssh_logs_path)?;
+                    file.seek(SeekFrom::End(0)).unwrap();
+                    last_position = file.stream_position().unwrap();
+                }
+
+                // Please tell me if there's a way to read stuff from the event directly
+                // because I honestly have no idea if it is possible
                 if event.kind.is_modify() {
                     file.seek(SeekFrom::Start(last_position)).unwrap();
 
