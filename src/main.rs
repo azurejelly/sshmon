@@ -3,7 +3,8 @@ use std::io::{BufRead, BufReader, Seek, SeekFrom};
 use std::path::Path;
 use std::sync::mpsc;
 use log::{debug, error};
-use notify::{Event, RecursiveMode, Result, Watcher};
+use notify::event::{ModifyKind, RenameMode};
+use notify::{Event, EventKind, RecursiveMode, Result, Watcher};
 use regex::Regex;
 use dotenv::dotenv;
 
@@ -32,12 +33,25 @@ fn main() -> Result<()> {
                 debug!("Received event {:?} on file {}", event, config.ssh_logs_path);
                 debug!("Last known position is {}", last_position);
                 
-                // If the file gets removed or created again, reset the last position to zero.
+                // If the file gets created again, reset the last position to zero.
                 // A possible cause for this is, for example, log rotation.
-                if event.kind.is_remove() || event.kind.is_create() {
+                if event.kind.is_create() {
+                    debug!("File was created again, resetting last position and reopening file.");
+
                     file = File::open(&config.ssh_logs_path)?;
                     file.seek(SeekFrom::End(0)).unwrap();
                     last_position = file.stream_position().unwrap();
+                    continue;
+                }
+
+                // We also want to reset the last position to zero when the file is renamed.
+                if let EventKind::Modify(ModifyKind::Name(rename_mode)) = event.kind {
+                    debug!("Detected a file rename, resetting last position and reopening file: {:?}", rename_mode);
+
+                    file = File::open(&config.ssh_logs_path)?;
+                    file.seek(SeekFrom::End(0))?;
+                    last_position = file.stream_position()?;
+                    continue;
                 }
 
                 // Please tell me if there's a way to read stuff from the event directly
